@@ -22,4 +22,6 @@ class ssh (
 
   package { $full_package: } ->
   ssh_key { $::luser: }
+
+  include ssh::agent
 }
