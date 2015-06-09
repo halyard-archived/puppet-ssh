@@ -21,8 +21,8 @@ class ssh::agent (
     command     => "launchctl load $plist",
     refreshonly => true
   } ~>
-  exec { 'start ssh-agent':
-    command     => "launchctl start $service",
+  exec { 'reload ssh-agent env':
+    command     => "launchctl getenv SSH_AUTH_SOCK",
     refreshonly => true
   }
 }
