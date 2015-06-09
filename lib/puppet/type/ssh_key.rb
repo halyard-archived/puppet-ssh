@@ -1,27 +1,33 @@
-Puppet::Type.newtype(:osx_login_item) do
+require 'puppet/util/execution'
+
+Puppet::Type.newtype(:ssh_key) do
   @doc = "Manage SSH keys"
 
-  ensurable
+  ensurable do
+    defaultvalues
+    defaultto :present
+  end
 
-  newparam :name do
+  newparam(:name) do
     desc 'User to manage SSH key for'
 
     validate do |v|
-      unless system('id', v) == 0
+      raise(ArgumentError, 'User is not valid') unless v.match(/^\w+$/)
+      res = Puppet::Util::Execution.execute(['id', v], failonfail: false)
+      unless res.exitstatus == 0
         raise ArgumentError, 'User is not valid'
       end
     end
   end
 
-  newparam :type do
+  newparam(:type) do
     desc 'Kind of key to create'
     newvalues(:rsa, :ecdsa, :ed25519)
     defaultto :ed25519
   end
 
-  newparam :size do
+  newparam(:size) do
     desc 'Size of key to create'
-    defaultto nil
 
     validate do |v|
       return super if v.nil?
@@ -48,24 +54,21 @@ Puppet::Type.newtype(:osx_login_item) do
         nil
       end
     end
+  end
 
-    newparam :comment do
-      desc 'Comment for SSH key'
-      defaultto do
-        host = Facter.value(:'hostname::hostname') || Facter.value(:hostname)
-        "#{Facter.value(:luser)}@#{host}"
-      end
+  newparam(:comment) do
+    desc 'Comment for SSH key'
+    defaultto do
+      host = Facter.value(:'hostname::hostname') || Facter.value(:hostname)
+      "#{Facter.value(:luser)}@#{host}"
     end
+  end
 
-    newparam :path do
-      desc 'File path for key'
-    end
+  newparam(:path) do
+    desc 'File path for key'
+  end
 
-    newparam :passphrase do
-      desc 'Passphrase for key'
-      defaultto do
-        Facter.value(:ssh_passphrase)
-      end
-    end
+  newparam(:passphrase) do
+    desc 'Passphrase for key'
   end
 end
