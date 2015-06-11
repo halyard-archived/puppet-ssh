@@ -21,7 +21,8 @@ class ssh (
   }
 
   package { $full_package: } ->
-  ssh_key { $::luser: }
+  ssh_key { $::luser: } ~>
+  github_ssh_key { '~/.ssh/id_ed25519.pub': }
 
   include ssh::agent
 }
