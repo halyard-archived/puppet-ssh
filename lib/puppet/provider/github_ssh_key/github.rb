@@ -38,7 +38,7 @@ Puppet::Type.type(:github_ssh_key).provide :github do
   end
 
   def key
-    @key ||= File.read(path).strip
+    @key ||= File.read(path).rpartition(' ').first
   end
 
   def default_title
