@@ -11,7 +11,7 @@ class ssh (
   $package = 'homebrew/dupes/openssh',
 ) {
   package { $package:
-    require => Class[':packages']
+    require => Class['::packages']
   } ->
   ssh_key { $::luser: } ~>
   github_ssh_key { '~/.ssh/id_ed25519.pub': }
