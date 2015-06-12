@@ -8,19 +8,11 @@
 #   Explanation of what this parameter affects and what it defaults to.
 #
 class ssh (
-  $tap     = 'homebrew/dupes',
-  $package = 'openssh'
+  $package = 'homebrew/dupes/openssh',
 ) {
-  if size($tap) {
-    $full_package = "${tap}/${package}"
-    homebrew::tap { $tap:
-      before => Package[$full_package]
-    }
-  } else {
-    $full_package = $package
-  }
-
-  package { $full_package: } ->
+  package { $package:
+    require => Class[':packages']
+  } ->
   ssh_key { $::luser: } ~>
   github_ssh_key { '~/.ssh/id_ed25519.pub': }
 
