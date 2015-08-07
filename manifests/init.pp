@@ -15,6 +15,4 @@ class ssh (
   } ->
   ssh_key { $::luser: } ~>
   github_ssh_key { '~/.ssh/id_ed25519.pub': }
-
-  include ssh::agent
 }
