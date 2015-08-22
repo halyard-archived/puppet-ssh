@@ -40,7 +40,7 @@ Puppet::Type.type(:ssh_key).provide :openssh do
   end
 
   def passphrase
-    @passphrase = @resource[:passphrase] || function_user_input(
+    @passphrase = @resource[:passphrase] || user_input(
       title: 'SSH Key Passphrase',
       desc: prompt_message,
       hidden: true,
