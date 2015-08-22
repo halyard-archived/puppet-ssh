@@ -40,28 +40,10 @@ Puppet::Type.type(:ssh_key).provide :openssh do
   end
 
   def passphrase
-    @passphrase ||= @resource[:passphrase] || prompt_for_passphrase
+    @passphrase = @resource[:passphrase]
   end
 
   def prompt_message
     "Enter SSH key passphrase for #{@resource[:name]}"
-  end
-
-  def prompt_command
-    [ 
-      'text returned of (display dialog',
-      %W{"#{prompt_message}"},
-      'with title "SSH Key"',
-      'with icon caution',
-      'default answer ""',
-      'buttons {"Cancel", "OK"} default button 2',
-      'with hidden answer)',
-    ]
-  end
-
-  def prompt_for_passphrase
-    result = `/usr/bin/osascript -e '#{prompt_command.join(' ')}'`.chomp
-    fail('Passphrase not provided for SSH key') if result.empty?
-    result
   end
 end
