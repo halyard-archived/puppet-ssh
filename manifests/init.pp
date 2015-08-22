@@ -13,11 +13,6 @@ class ssh (
   package { $package:
     require => Class['::packages']
   } ->
-  ssh_key { $::luser:
-    passphrase => user_input({
-      title  => 'SSH key passphrase',
-      hidden => true
-    })
-  } ~>
+  ssh_key { $::luser: } ~>
   github_ssh_key { '~/.ssh/id_ed25519.pub': }
 }
