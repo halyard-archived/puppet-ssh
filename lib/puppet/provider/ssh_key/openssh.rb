@@ -23,7 +23,6 @@ Puppet::Type.type(:ssh_key).provide :openssh do
     args = [
       'ssh-keygen',
       '-f', path,
-      '-N', passphrase,
       '-C', @resource[:comment],
       '-t', @resource[:type]
     ]
@@ -37,18 +36,5 @@ Puppet::Type.type(:ssh_key).provide :openssh do
 
   def default_path
     File.expand_path "~#{@resource[:name]}/.ssh/id_#{@resource[:type]}"
-  end
-
-  def passphrase
-    @passphrase = @resource[:passphrase] || user_input(
-      title: 'SSH Key Passphrase',
-      desc: prompt_message,
-      hidden: true,
-      failonempty: true
-    )
-  end
-
-  def prompt_message
-    "Enter SSH key passphrase for #{@resource[:name]}"
   end
 end
