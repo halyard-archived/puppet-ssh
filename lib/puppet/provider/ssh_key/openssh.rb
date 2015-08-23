@@ -6,11 +6,11 @@ Puppet::Type.type(:ssh_key).provide :openssh do
   include Puppet::Util::Errors
 
   def exists?
-    File.exists? path
+    File.exists? path + '.pub'
   end
 
   def destroy
-    File.unlink path
+    ['', '.pub'].each { |x| File.unlink(path + x) if File.exists?(path + x) }
   end
 
   def create
