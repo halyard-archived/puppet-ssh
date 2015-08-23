@@ -9,20 +9,25 @@
 #
 class ssh (
   $package = 'homebrew/dupes/openssh',
+  $keypath = "/Users/${::boxen_user}/.ssh/id_ed25519"
 ) {
   package { $package:
     require => Class['::packages']
   } ->
+  exec { "remove stale SSH key":
+    cmd    => "rm -f ${keypath}.pub",
+    unless => ["test -e ${keypath}", "ssh-add -l | grep ED25519"]
+  } ->
   ssh_key { $::luser:
     require => Package['gnupg-halyard']
   } ->
-  github_ssh_key { '~/.ssh/id_ed25519.pub': } ->
-  exec { 'ssh-add ~/.ssh/id_ed25519':
-    unless   => 'ssh-add ~/.ssh/id_ed25519 | grep ED25519',
+  github_ssh_key { "${keypath}.pub": } ->
+  exec { "ssh-add ${keypath}":
+    unless   => "ssh-add -l | grep ED25519",
     provider => 'shell',
     user     => $::boxen_user
-  } ~>
-  exec { 'rm ~/.ssh/id_ed25519':
-    refreshonly => true
+  } ->
+  file { $keypath:
+    ensure => absent
   }
 }
