@@ -15,8 +15,8 @@ class ssh (
     require => Class['::packages']
   } ->
   exec { "remove stale SSH key":
-    cmd    => "rm -f ${keypath}.pub",
-    unless => ["test -e ${keypath}", "ssh-add -l | grep ED25519"]
+    command => "rm -f ${keypath}.pub",
+    unless  => ["test -e ${keypath}", "ssh-add -l | grep ED25519"]
   } ->
   ssh_key { $::luser:
     require => Package['gnupg-halyard']
