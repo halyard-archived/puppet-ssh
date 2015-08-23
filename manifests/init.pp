@@ -20,7 +20,7 @@ class ssh (
   exec { 'ssh-add ~/.ssh/id_ed25519':
     unless   => 'ssh-add ~/.ssh/id_ed25519 | grep ED25519',
     provider => 'shell',
-    uid      => $::boxen_user
+    user     => $::boxen_user
   } ~>
   exec { 'rm ~/.ssh/id_ed25519':
     refreshonly => true
