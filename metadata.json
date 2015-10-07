@@ -1,0 +1,22 @@
+{
+  "name": "halyard-ssh",
+  "version": "0.0.18",
+  "author": "Les Aker",
+  "license": "MIT",
+  "summary": "Configure ssh via Boxen",
+  "source": "https://github.com/halyard/puppet-ssh",
+  "project_page": "https://github.com/halyard/puppet-ssh",
+  "issues_url": "https://github.com/halyard/puppet-ssh/issues",
+  "dependencies": [
+
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemmajrelease": [
+        "14",
+        "15"
+      ]
+    }
+  ]
+}
