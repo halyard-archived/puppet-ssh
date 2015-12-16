@@ -42,7 +42,7 @@ Puppet::Type.type(:github_ssh_key).provide :github do
   end
 
   def default_title
-    "#{Facter.value(:luser)}@#{Facter.value(:hostname)}"
+    "#{Facter.value(:user)}@#{Facter.value(:hostname)}"
   end
 
   def title

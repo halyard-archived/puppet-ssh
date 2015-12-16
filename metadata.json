@@ -8,7 +8,14 @@
   "project_page": "https://github.com/halyard/puppet-ssh",
   "issues_url": "https://github.com/halyard/puppet-ssh/issues",
   "dependencies": [
-
+    {
+      "name": "halyard/homebrew",
+      "version_requirement": "1.13.x"
+    },
+    {
+      "name": "halyard/gpg",
+      "version_requirement": "0.1.x"
+    }
   ],
   "operatingsystem_support": [
     {

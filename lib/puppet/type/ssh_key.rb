@@ -60,7 +60,7 @@ Puppet::Type.newtype(:ssh_key) do
     desc 'Comment for SSH key'
     defaultto do
       host = Facter.value(:'hostname::hostname') || Facter.value(:hostname)
-      "#{Facter.value(:luser)}@#{host}"
+      "#{Facter.value(:user)}@#{host}"
     end
   end
 
