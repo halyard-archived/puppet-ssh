@@ -29,7 +29,7 @@ class ssh (
     unless  => ["test -e ${keypath}", 'ssh-add -l | grep ED25519']
   } ->
   ssh_key { $::luser:
-    require => Package['gpg']
+    require => Class['::gpg']
   } ->
   github_ssh_key { "${keypath}.pub": } ->
   exec { "ssh-add ${keypath}":
