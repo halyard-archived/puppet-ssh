@@ -23,21 +23,21 @@ class ssh (
 
   package { $package_fullname:
     require => $tap_require
-  } ->
-  exec { 'remove stale SSH key':
+  }
+  -> exec { 'remove stale SSH key':
     command => "rm -f ${keypath}.pub",
     unless  => ["test -e ${keypath}", 'ssh-add -l | grep ED25519']
-  } ->
-  ssh_key { $::luser:
+  }
+  -> ssh_key { $::luser:
     require => Class['::gpg']
-  } ->
-  github_ssh_key { "${keypath}.pub": } ->
-  exec { "ssh-add ${keypath}":
+  }
+  -> github_ssh_key { "${keypath}.pub": }
+  -> exec { "ssh-add ${keypath}":
     unless   => 'ssh-add -l | grep ED25519',
     provider => 'shell',
     user     => $::user
-  } ->
-  file { $keypath:
+  }
+  -> file { $keypath:
     ensure => absent
   }
 }
